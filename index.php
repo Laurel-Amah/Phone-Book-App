@@ -18,12 +18,12 @@ $contacts = $contactManager->loadContacts();
     <ul>
         <?php foreach ($contacts as $index => $contact): ?>
             <li>
-                <a href="details.php?index=<?php echo $index; ?>">
-                    <?php echo $contact->getName(); ?> - <?php echo $contact->getPhone(); ?>
-                </a>
-                <a href="edit.php?index=<?php echo $index; ?>">Edit</a>
-                <a href="delete.php?index=<?php echo $index; ?>">Delete</a>
-            </li>
+                <?php echo $contact->getName(); ?> --- <?php echo $contact->getPhone(); ?><br>
+
+                <a href="details.php?index=1" class="btn-link">View Details</a>
+                <a href="edit.php?index=1" class="btn-link">Edit Contact</a>
+                <a href="delete.php?index=1" class="btn-link">Delete Contact</a> <br><br>
+
         <?php endforeach; ?>
     </ul>
 </body>

@@ -21,7 +21,7 @@ $contact = $contactManager->getContact($index);
         <p><img src="<?php echo $contact->getImage(); ?>" alt="Contact Image" width="150"></p>
     <?php else: ?>
         <p>Contact not found.</p>
-    <?php endif; ?>
+    <?php endif; ?><br><br>
     <a href="index.php">Back to Contact List</a>
 </body>
 </html>
