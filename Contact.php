@@ -1,24 +1,18 @@
 <?php
-
 class Contact {
-    private $id;
     private $name;
     private $phone;
     private $category;
-    private $photo;
+    private $image;
 
-    public function __construct($id, $name, $phone, $category, $photo) {
-        $this->id = $id;
+    public function __construct($name, $phone, $category, $image) {
         $this->name = $name;
         $this->phone = $phone;
         $this->category = $category;
-        $this->photo = $photo;
+        $this->image = $image;
     }
 
-    public function getId() {
-        return $this->id;
-    }
-
+    // Getters
     public function getName() {
         return $this->name;
     }
@@ -31,10 +25,11 @@ class Contact {
         return $this->category;
     }
 
-    public function getphoto() {
-        return $this->photo;
+    public function getImage() {
+        return $this->image;
     }
 
+    // Setters
     public function setName($name) {
         $this->name = $name;
     }
@@ -47,8 +42,18 @@ class Contact {
         $this->category = $category;
     }
 
-    public function setPhoto($photo) {
-        $this->photo = $photo;
+    public function setImage($image) {
+        $this->image = $image;
+    }
+
+    // Convert contact data to an associative array for JSON storage
+    public function toArray() {
+        return [
+            'name' => $this->name,
+            'phone' => $this->phone,
+            'category' => $this->category,
+            'image' => $this->image
+        ];
     }
 }
 ?>
