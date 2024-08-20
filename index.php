@@ -9,6 +9,7 @@ $contacts = $contactManager->loadContacts();
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="StyleSheets/create.css">
     <title>Contact List</title>
 </head>
 <body>

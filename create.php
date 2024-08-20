@@ -5,6 +5,7 @@ require 'ContactManager.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
+    $email = $_POST['email'];
     $category = $_POST['category'];
     $image = '';
 
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image = $imagePath;
     }
 
-    $contact = new Contact($name, $phone, $category, $image);
+    $contact = new Contact($name, $phone, $email, $category, $image);
     $contactManager = new ContactManager('contacts.json');
     $contactManager->addContact($contact);
 
@@ -35,8 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Create New Contact</h1>
     <form method="POST" enctype="multipart/form-data">
-        <label>Name: <input type="text" name="name" required></label><br>
-        <label>Phone: <input type="text" name="phone" required></label><br>
+        <label>Name: <br><input type="text" name="name" required></label><br>
+        <label>Phone:<br> <input type="text" name="phone" required></label><br>
+        <label>Email: <br><input type="email" name="email" required></label><br>
         <label>Category: 
             <select name="category">
                 <option value="family">Family</option>
@@ -44,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="business">Business</option>
             </select>
         </label><br>
-        <label>Image: <input type="file" name="image"></label><br>
+        <label>Image: <input type="file" name="image"></label><br><br>
         <button type="submit">Save Contact</button>
     </form>
 </body>

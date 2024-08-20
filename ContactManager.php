@@ -1,6 +1,6 @@
 <?php
 
-require 'Contact.php';
+//require 'Contact.php';
 
 class ContactManager{
     private $file;

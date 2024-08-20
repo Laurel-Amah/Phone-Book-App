@@ -1,13 +1,15 @@
 <?php
-class Contact {
+class Contact{
     private $name;
     private $phone;
+    private $email;
     private $category;
     private $image;
 
-    public function __construct($name, $phone, $category, $image) {
+    public function __construct($name, $phone, $email, $category, $image) {
         $this->name = $name;
         $this->phone = $phone;
+        $this->email = $email;
         $this->category = $category;
         $this->image = $image;
     }
@@ -19,6 +21,10 @@ class Contact {
 
     public function getPhone() {
         return $this->phone;
+    }
+
+    public function getEmail(){
+        return $this->email;
     }
 
     public function getCategory() {
@@ -37,6 +43,10 @@ class Contact {
     public function setPhone($phone) {
         $this->phone = $phone;
     }
+    
+    public function setEmail($email) {
+        $this->email = $email;
+    }
 
     public function setCategory($category) {
         $this->category = $category;
@@ -51,6 +61,7 @@ class Contact {
         return [
             'name' => $this->name,
             'phone' => $this->phone,
+            'email' => $this->email,
             'category' => $this->category,
             'image' => $this->image
         ];
