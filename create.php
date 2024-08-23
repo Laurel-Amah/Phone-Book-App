@@ -34,20 +34,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Create Contact</title>
 </head>
 <body>
-    <h1>Create New Contact</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <label>Name: <br><input type="text" name="name" required></label><br>
-        <label>Phone:<br> <input type="text" name="phone" required></label><br>
-        <label>Email: <br><input type="email" name="email" required></label><br>
-        <label>Category: 
-            <select name="category">
-                <option value="family">Family</option>
-                <option value="friends">Friends</option>
-                <option value="business">Business</option>
-            </select>
-        </label><br>
-        <label>Image: <input type="file" name="image"></label><br><br>
-        <button type="submit">Save Contact</button>
-    </form>
+    <div class="mid">
+        <h1>Create New Contact</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <label>Name: <br> <input type="text" name="name" required></label><br>
+            <label>Phone: <br> <input type="text" name="phone" required></label><br>
+            <label>Email: <br> <input type="email" name="email" required></label><br>
+            <label>Category: 
+                <select name="category">
+                    <option value="family">Family</option>
+                    <option value="friends">Friends</option>
+                    <option value="business">Business</option>
+                </select>
+            </label><br>
+            <label>Image: <input type="file" name="image"></label><br><br>
+            <button type="submit">Save Contact</button>
+        </form>
+    </div>
+    <div class="mid2"></div>
 </body>
 </html>

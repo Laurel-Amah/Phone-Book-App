@@ -1,14 +1,37 @@
 [
     {
-        "name": "Dara Figueroa",
-        "phone": "+1 (601) 359-4891",
-        "category": "friends",
-        "image": "uploads\/blue.png"
+        "name": "Whitney Koch",
+        "phone": "+1 (748) 146-2868",
+        "email": "ravana@mailinator.com",
+        "category": "family",
+        "image": "uploads\/IMG-20210724-WA0038.jpg"
     },
     {
-        "name": "Kylan Mendez",
-        "phone": "+1 (767) 155-5562",
+        "name": "Steel Cash",
+        "phone": "+1 (909) 612-4522",
+        "email": "dihu@mailinator.com",
         "category": "family",
         "image": ""
+    },
+    {
+        "name": "Willow Gates",
+        "phone": "+1 (381) 686-5797",
+        "email": "lolovohu@mailinator.com",
+        "category": "business",
+        "image": "uploads\/IMG-20210808-WA0016.jpg"
+    },
+    {
+        "name": "Cruz Estrada",
+        "phone": "+1 (509) 496-7165",
+        "email": "cyneburej@mailinator.com",
+        "category": "business",
+        "image": "uploads\/IMG-20210808-WA0013.jpg"
+    },
+    {
+        "name": "Mufutau Mercado",
+        "phone": "+1 (413) 482-5326",
+        "email": "hulyhyhi@mailinator.com",
+        "category": "friends",
+        "image": "uploads\/IMG-20210724-WA0032.jpg"
     }
 ]
