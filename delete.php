@@ -10,7 +10,7 @@
         $contactManager->deleteContact($contactID);
     }
 
-    echo "<a href='index.php' class='create-link'>Back to Contact List<br><br></a>";
+    echo "<a href='index.php' class='create-link'>Back to Contact List<br></a>";
 
     include 'partials/footer.php';
 
