@@ -109,7 +109,7 @@
             if (!$stmt->execute()) {
                 die("Contact NOT Deleted" . $stmt->error);
             } else {
-                echo "Contact Deleted Successfully <br>";
+                echo "Contact Deleted Successfully ! <br><br><br>";
             }
             $stmt->close();
         }
