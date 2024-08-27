@@ -5,10 +5,15 @@ This project is a simple PHP-based phone book web application that allows users 
 **Features**
 
 Create Contact: Add a new contact with a name, phone number, category (Family, Friends, Business), and an image.
+
 View Contacts: See a list of all contacts with basic details.
+
 Contact Details: View detailed information about a specific contact.
+
 Search: Find a particular contact.
+
 Edit Contact: Update the details of an existing contact.
+
 Delete Contact: Remove a contact from the phone book.
 
 **Project Structure**
