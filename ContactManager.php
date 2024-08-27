@@ -1,75 +1,139 @@
 <?php
+    require_once 'Contact.php';
+    require_once 'database.php';
 
-//require 'Contact.php';
+    class ContactManager {
+        private $conn;
+        //public $result;
 
-class ContactManager{
-    private $file;
+        public function __construct()
+        {
+            $this->connect_Database();
+        }
 
-    public function __construct($file) {
-        $this->file = $file;
-    }
+        private function connect_Database() {
+            $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            
+            if ($this->conn->connect_error) {
+                die("Connection Failed!". $this->conn->connect_error);
+            }
+        }
 
-    // Load contacts from the JSON file
-    public function loadContacts() {
-        if (file_exists($this->file)) {
-            $json = file_get_contents($this->file);
-            $contactsArray = json_decode($json, true);
+        public function createContact($contact_Name, $phone, $email, $category, $contact_Image) {
+            $stmt = $this->conn->prepare("INSERT INTO Contacts (contact_Name, phone, email, category, contact_Image) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param('sssss', $contact_Name, $phone, $email, $category, $contact_Image);
+
+           // $stmt->execute();
+
+            if (!$stmt->execute()) {
+                die("Contact NOT created!" . $stmt->error);
+            } else {
+                echo "Contact created Successfully";
+            }
+            $stmt->close();
+        }
+
+        public function getContactById($id) {
+           /* $contact_Name = '';
+            $phone ='';
+            $email = '';
+            $category = '';
+            $contact_Image = ''; */
+
+            $stmt = $this->conn->prepare("SELECT * FROM Contacts WHERE id = ? ");
+            $stmt->bind_param('i', $id);
+            
+            $stmt->execute();
+
+            // Binding the resulting variables
+            $result = $stmt->get_result();
+            $contact = $result->fetch_assoc();
+            $stmt->close();
+
+            return $contact;
+        }
+
+        public function getAll() {
+           /* $contact_Name = '';
+            $phone =''; */
+
+            $stmt = $this->conn->prepare("SELECT id, contact_Name, phone FROM Contacts  ORDER BY contact_Name ASC");
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            
+            return $result;
+        }
+
+        public function editContact($id, $contact_Name, $phone, $email, $category, $contact_Image) {
+            // First, check if $contact_Image is empty. If it is, retain the old image.
+            if (empty($contact_Image)) {
+                // Retrieve the current image from the database
+                $stmt = $this->conn->prepare("SELECT contact_Image FROM Contacts WHERE id = ?");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $contact_Image = $row['contact_Image']; // Retain the existing image
+                $stmt->close();
+            }
+        
+            // Prepare the update statement
+            $stmt = $this->conn->prepare("UPDATE Contacts SET contact_Name = ?, phone = ?, email = ?, category = ?, contact_Image = ? WHERE id = ?");
+            $stmt->bind_param('sssssi', $contact_Name, $phone, $email, $category, $contact_Image, $id);
+        
+            // Execute the statement
+            if ($stmt->execute()) {
+                echo "Contact edited Successfully";
+                // Redirect to view_details page after successful update
+                header("Location: view_details.php?id=" . $id);
+                exit(); // Ensure the script stops executing after the redirect
+
+            } else {
+                // To handle errors more gracefully
+                error_log("Failed to edit contact: " . $stmt->error);
+                echo "An error occurred while editing the contact. Please try again later.";
+            }
+        
+            // Close the statement
+            $stmt->close();
+        }
+        
+
+        public function deleteContact($id){
+            $stmt = $this->conn->prepare("DELETE FROM Contacts WHERE id = ?");
+            $stmt->bind_param('i', $id);
+
+            $stmt->execute();
+
+            if (!$stmt->execute()) {
+                die("Contact NOT Deleted" . $stmt->error);
+            } else {
+                echo "Contact Deleted Successfully <br>";
+            }
+            $stmt->close();
+        }
+
+        public function searchContacts($query) {
+            // Preparing query for search
+            $query = "%". $query . "%";
+            $stmt = $this->conn->prepare("SELECT * FROM Contacts WHERE contact_Name LIKE ? OR phone LIKE ? OR email LIKE ?");
+            $stmt->bind_param("sss", $query, $query, $query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
             $contacts = [];
-
-            foreach ($contactsArray as $contactData) {
-                $contacts[] = new Contact(
-                    $contactData['name'],
-                    $contactData['phone'],
-                    $contactData['email'],
-                    $contactData['category'],
-                    $contactData['image']
-                );
+            while ($row = $result->fetch_assoc()) {
+                $contacts[] = $row;
             }
 
+            $stmt->close();
             return $contacts;
         }
 
-        return [];
-    }
-
-    // Save contacts to the JSON file
-    public function saveContacts($contacts) {
-        $contactsArray = array_map(function($contact) {
-            return $contact->toArray();
-        }, $contacts);
-
-        file_put_contents($this->file, json_encode($contactsArray, JSON_PRETTY_PRINT));
-    }
-
-    // Add a new contact
-    public function addContact($contact) {
-        $contacts = $this->loadContacts();
-        $contacts[] = $contact;
-        $this->saveContacts($contacts);
-    }
-
-    // Update an existing contact
-    public function updateContact($index, $contact) {
-        $contacts = $this->loadContacts();
-        if (isset($contacts[$index])) {
-            $contacts[$index] = $contact;
-            $this->saveContacts($contacts);
+        public function __destruct()
+        {
+           $this->conn->close(); 
         }
     }
-
-    // Delete a contact
-    public function deleteContact($index) {
-        $contacts = $this->loadContacts();
-        if (isset($contacts[$index])) {
-            unset($contacts[$index]);
-            $this->saveContacts(array_values($contacts));
-        }
-    }
-
-    // Get a single contact by index
-    public function getContact($index) {
-        $contacts = $this->loadContacts();
-        return isset($contacts[$index]) ? $contacts[$index] : null;
-    }
-}
 ?>

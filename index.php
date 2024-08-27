@@ -1,30 +1,46 @@
-<?php
-require 'Contact.php';
-require 'ContactManager.php';
+<?php 
+    require_once 'ContactManager.php';
+    $contactManager = new ContactManager();
+    $result = $contactManager->getAll();
+    
+    $i = 1;
 
-$contactManager = new ContactManager('contacts.json');
-$contacts = $contactManager->loadContacts();
+    include 'partials/header.php';
+
+    if ($result->num_rows > 0) {
+        echo "<div class='top'>";
+        echo "<h2>Contact List</h2>";
+        echo "<a href='create.php'>Create a New Contact</a>";
+        echo "</div>";
+        echo "<form action='search.php' method='get' class='search-form'>
+                <input type='text' name='query' placeholder='Search Contacts ...' required>
+                <button type='submit' class='search'> Search </button>
+            </form>";
+        echo "<table border='1'>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Phone</th>
+                    <th> </th>
+                    <th> </th>
+                    <th> </th>
+                </tr>";
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $id = $row["id"];  // Assuming 'id' is the correct column name for the primary key in your database
+            echo "<tr>
+                    <td>" . $i . "</td>
+                    <td>" . $row["contact_Name"] . "</td>
+                    <td>" . $row["phone"] . "</td>
+                    <td><a href='view_details.php?id=" . $id . "' class='btn-link'>View</a></td>
+                    <td><a href='edit.php?id=" . $id . "' class='btn-link'>Edit</a></td>
+                    <td><a href='delete.php?id=" . $id . "' class='btn-link' onclick='return confirm(\"Are you sure you want to delete this contact?\");'>Delete</a></td>
+                  </tr>";
+            $i++;
+        }
+        echo "</table>";
+    } else {
+        echo "No results!";
+    }
+   include 'partials/footer.php'; 
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="StyleSheets/create.css">
-    <title>Contact List</title>
-</head>
-<body>
-        <h1>Your Contacts</h1>
-        <a href="create.php" class="btn-link">Add New Contact</a>
-        <ul>
-            <?php foreach ($contacts as $index => $contact): ?>
-                <li>
-                    <?php echo $contact->getName(); ?> --- <?php echo $contact->getPhone(); ?><br>
-                    <br><br>
-                    <a href="details.php?index=<?php echo $index; ?>" class="btn-link">View Details</a>
-                    <a href="edit.php?index=<?php echo $index; ?>" class="btn-link"> Edit Contact</a>
-                    <a href="delete.php?index=<?php echo $index; ?>" class="btn-link" onclick=""> Delete Contact</a> <br><br>
-
-            <?php endforeach; ?>
-        </ul>
-</body>
-</html>

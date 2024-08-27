@@ -1,12 +1,16 @@
-<?php
-require 'Contact.php';
-require 'ContactManager.php';
+<?php 
 
-$contactManager = new ContactManager('contacts.json');
-$index = $_GET['index'];
+    require_once 'ContactManager.php';
+ 
+    if(isset($_GET['id'])) {
+        $contactManager = new ContactManager();
+        $contactID = $_GET['id'];
+        $contactManager->deleteContact($contactID);
+    }
 
-$contactManager->deleteContact($index);
+    echo "<a href='index.php'>Back to Contact List<br></a>";
 
-header('Location: index.php');
-exit;
+    include 'partials/footer.php';
+
+    //header('Location: index.php');
 ?>

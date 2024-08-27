@@ -1,12 +1,13 @@
 **Phone Book Application**
 
-This project is a simple PHP-based phone book web application that allows users to manage their contacts. The app utilizes JSON files for data storage and is built using Object-Oriented Programming (OOP) principles in PHP.
+This project is a simple PHP-based phone book web application that allows users to manage their contacts. The app utilizes a database for data storage and is built using Object-Oriented Programming (OOP) principles in PHP.
 
 **Features**
 
 Create Contact: Add a new contact with a name, phone number, category (Family, Friends, Business), and an image.
 View Contacts: See a list of all contacts with basic details.
 Contact Details: View detailed information about a specific contact.
+Search: Find a particular contact.
 Edit Contact: Update the details of an existing contact.
 Delete Contact: Remove a contact from the phone book.
 
@@ -20,15 +21,23 @@ Delete Contact: Remove a contact from the phone book.
 
 ├── edit.php       &emsp; &emsp;        # Page for editing an existing contact
 
-├── details.php     &emsp; &emsp;       # Page for viewing details of a contact
+├── search.php       &emsp; &emsp;        # Page for Searching for a contact
+
+├── view_details.php     &emsp; &emsp;       # Page for viewing details of a contact
 
 ├── delete.php     &emsp; &emsp;        # Script to handle contact deletion
+
+├── database.php     &emsp; &emsp;        # Script containing server login information
 
 ├── Contact.php     &emsp; &emsp;       # Contact class definition
 
 ├── ContactManager.php  &emsp; &emsp;   # Class for managing contacts (CRUD operations)
 
-├── contacts.json    &emsp; &emsp;      # JSON file storing contacts data
+├── partials
+
+&emsp; &emsp; └── footer.php     &emsp; &emsp;         # Footer file for HTML scripts.
+
+&emsp; &emsp; └── header.php     &emsp; &emsp;         # Header file for HTML scripts.
 
 ├── StyleSheets
 
