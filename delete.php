@@ -1,6 +1,7 @@
 <?php 
 
     require_once 'ContactManager.php';
+    include 'partials/header.php';
  
     if(isset($_GET['id'])) {
         $contactManager = new ContactManager();
