@@ -11,7 +11,7 @@
 
             echo "<h2>Contact Details</h2>";
                 echo "<div class='view'>";  
-                echo "<div></div>";
+                echo "<div> ' '</div>";
                 echo "<div>";           
                     echo "<img id ='img' src = ' ". $contact['contact_Image'] . " '> <br>";
                     echo "<p><b>Name: </b>" . $contact['contact_Name'] . "</p><br>";

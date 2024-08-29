@@ -2,9 +2,9 @@
     require_once 'ContactManager.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $contact_Name = $_POST['contact_Name'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
+        $contact_Name = trim($_POST['contact_Name']);
+        $phone = trim($_POST['phone']);
+        $email = trim($_POST['email']);
         $category = $_POST['category'];
         $contact_Image = '';
 
@@ -45,17 +45,9 @@
                 $error = 'Invalid file type. Allowed types: ' . implode(', ', $allowedExtensions);
             }
         }
-            
-            // Extract original file name of uploaded file and append it to uploads/ for the new image path.
-           /* $imagePath = $uploadDir . basename($_FILES['image']['name']);
-            
-            move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
-            
-            $image = $imagePath;
-        }
-        $contact_Image = $image; */
+        //$phone = validatePhone($phone1);
+        //$email = validateEmail($email2);
 
-        //$contact = new Contact($contact_Name, $phone, $email, $category, $contact_Image);
         $contactManager = new ContactManager();
         $contactManager->createContact($contact_Name, $phone, $email, $category, $contact_Image);
      
@@ -71,13 +63,15 @@
     <form method="post" enctype="multipart/form-data" class="contact-form">
             
         <label for="contact_Name">Name </label>
-        <input type="text" id="contact_Name" name="contact_Name" placeholder="e.g. John Doe" />
+        <input type="text" id="contact_Name" name="contact_Name" placeholder="e.g. John Doe" required />
 
         <label for="phone">Phone Number </label>
         <input type="tel" id="phone" name="phone" placeholder="e.g. +123 456-789-101" required/>
+        <span id="phoneError" class="error"></span><br><br>
     
         <label for="email">Email </label>
         <input type="email" id="email" name="email" placeholder="e.g. johndoe@example.com" required/>
+        <span id="emailError" class="error"></span><br><br>
         
         <label for="category">Category </label>
         <select id="category" name="category" required>
@@ -95,6 +89,9 @@
         </div>
 
     </form>
+
+    <script src="validate.js"></script>
+
 </section>
 
 <?php include 'partials/footer.php'; ?>

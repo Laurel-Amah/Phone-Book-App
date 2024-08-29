@@ -19,7 +19,7 @@
             }
         }
 
-        public function createContact($contact_Name, $phone, $email, $category, $contact_Image) {
+        public function createContact(string $contact_Name, string $phone, string $email, string $category, string $contact_Image) {
             $stmt = $this->conn->prepare("INSERT INTO Contacts (contact_Name, phone, email, category, contact_Image) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param('sssss', $contact_Name, $phone, $email, $category, $contact_Image);
 
@@ -33,12 +33,7 @@
             $stmt->close();
         }
 
-        public function getContactById($id) {
-           /* $contact_Name = '';
-            $phone ='';
-            $email = '';
-            $category = '';
-            $contact_Image = ''; */
+        public function getContactById(int $id) {
 
             $stmt = $this->conn->prepare("SELECT * FROM Contacts WHERE id = ? ");
             $stmt->bind_param('i', $id);
@@ -65,7 +60,7 @@
             return $result;
         }
 
-        public function editContact($id, $contact_Name, $phone, $email, $category, $contact_Image) {
+        public function editContact(int $id, string $contact_Name, string $phone, string $email, string $category, string $contact_Image) {
             // First, check if $contact_Image is empty. If it is, retain the old image.
             if (empty($contact_Image)) {
                 // Retrieve the current image from the database
@@ -100,7 +95,7 @@
         }
         
 
-        public function deleteContact($id){
+        public function deleteContact(int $id){
             $stmt = $this->conn->prepare("DELETE FROM Contacts WHERE id = ?");
             $stmt->bind_param('i', $id);
 
@@ -114,7 +109,7 @@
             $stmt->close();
         }
 
-        public function searchContacts($query) {
+        public function searchContacts(string $query) {
             // Preparing query for search
             $query = "%". $query . "%";
             $stmt = $this->conn->prepare("SELECT * FROM Contacts WHERE contact_Name LIKE ? OR phone LIKE ? OR email LIKE ?");

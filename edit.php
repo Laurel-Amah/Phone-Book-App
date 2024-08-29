@@ -70,10 +70,12 @@
 
         <label for="phone">Phone Number: </label>
         <input type="tel" id="phone" name="phone" value ="<?php echo htmlspecialchars($contact['phone']); ?>" />
-    
+        <span id="phoneError" class="error"></span><br><br>
+
         <label for="email">Email: </label>
         <input type="email" id="email" name="email" value ="<?php echo htmlspecialchars($contact['email']); ?>"/>
-        
+        <span id="emailError" class="error"></span><br><br>
+
         <label for="category">Category: </label>
         <select id="category" name="category" required>
             <option value="family" <?php if($contact['category'] == 'family') echo 'selected'; ?>>Family</option>
@@ -90,6 +92,9 @@
         </div>
 
     </form>
+
+    <script src="validate.js"></script>
+
 </section>
 
 <?php include 'partials/footer.php'; ?>
