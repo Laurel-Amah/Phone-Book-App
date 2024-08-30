@@ -1,5 +1,6 @@
 <?php 
     require_once 'ContactManager.php';
+    require_once 'scripts/imageUpload.php';
 
     if (isset($_GET['id'])) {
     $contactId = $_GET['id'];
@@ -16,36 +17,7 @@
 
             // Handling Image uploads
             if (isset($_FILES['contact_Image']) && $_FILES['contact_Image']['error'] === UPLOAD_ERR_OK) {
-
-                $uploadDir = 'uploads/';
-               
-                $fileTmpPath = $_FILES['contact_Image']['tmp_name'];
-                // Extract original file name of uploaded file
-                $fileName = basename($_FILES['contact_Image']['name']);
-                // Store file size in bytes
-                $fileSize = $_FILES['contact_Image']['size'];
-                // Store MIME type - format of the file
-                $fileType = $_FILES['contact_Image']['type'];
-                // Extract file extension and convert it to lowercase
-                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-                // Check if extension is in array of allowed extensions
-                if (in_array($fileExtension, $allowedExtensions)) {
-                    // Generate a unique filename for uploaded file and append file extension
-                    $newFileName = uniqid('contact_', true) . '.' . $fileExtension;
-                    // Construct final destination for uploaded file.
-                    $destPath = $uploadDir . $newFileName;
-                    
-                    // Move uploaded file from temporary location to destination path
-                    if (move_uploaded_file($fileTmpPath, $destPath)) {
-                        $contact_Image = $destPath;
-                    } else {
-                        $error = 'Error moving the uploaded file.';
-                    }
-                } else {
-                    $error = 'Invalid file type. Allowed types: ' . implode(', ', $allowedExtensions);
-                }
+                $contact_Image = imageUpload();
             }
 
             $contactManager->editContact($contactId, $contact_Name, $phone, $email, $category, $contact_Image);
@@ -83,8 +55,10 @@
             <option value="business" <?php if($contact['category'] == 'business') echo 'selected'; ?>>Business</option>
         </select>
 
-        <label for="contact_Image">Photo: </label>
-        <input type="file" id="contact_Image" name="contact_Image" accept="image/*" />
+        <label for="contact_Image">Photo </label>
+        <input type="file" id="contact_Image" name="contact_Image" accept="image/*" onchange="previewImage(event)" /> <br><br>
+
+        <img id="imagePreview" class="preview" alt="Image Preview"><br>
 
         <div class="form-actions">
             <button type="submit" class="button">Update Contact</button>
@@ -93,7 +67,8 @@
 
     </form>
 
-    <script src="validate.js"></script>
+    <script src="scripts/validate.js"></script>
+    <script src="scripts/image_preview.js"></script>
 
 </section>
 
