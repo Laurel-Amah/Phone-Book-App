@@ -44,7 +44,16 @@ Delete Contact: Remove a contact from the phone book.
 
 &emsp; &emsp; └── header.php     &emsp; &emsp;         # Header file for HTML scripts.
 
-├── StyleSheets
+├── scripts
+
+&emsp; &emsp; └── image_preview.js     &emsp; &emsp;         # For the image Preview functionality.
+
+&emsp; &emsp; └── imageUpload.php     &emsp; &emsp;         # For the image upload functionality.
+
+&emsp; &emsp; └── validate.js     &emsp; &emsp;         # For the form validation functionality
+
+
+├── stylesheets
 
 &emsp; &emsp; └── styles.css     &emsp; &emsp;         # Stylesheet
  

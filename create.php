@@ -1,61 +1,19 @@
 <?php 
     require_once 'ContactManager.php';
+    require_once 'scripts/imageUpload.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $contact_Name = $_POST['contact_Name'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
+        $contact_Name = trim($_POST['contact_Name']);
+        $phone = trim($_POST['phone']);
+        $email = trim($_POST['email']);
         $category = $_POST['category'];
         $contact_Image = '';
 
         // Handling Image uploads
         if (isset($_FILES['contact_Image']) && $_FILES['contact_Image']['error'] === UPLOAD_ERR_OK) {
-
-            $uploadDir = 'uploads/';
-
-            // Create an upload directory if there is none
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-            $fileTmpPath = $_FILES['contact_Image']['tmp_name'];
-            // Extract original file name of uploaded file
-            $fileName = basename($_FILES['contact_Image']['name']);
-            // Store file size in bytes
-            $fileSize = $_FILES['contact_Image']['size'];
-            // Store MIME type - format of the file
-            $fileType = $_FILES['contact_Image']['type'];
-            // Extract file extension and convert it to lowercase
-            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-            // Check if extension is in array of allowed extensions
-            if (in_array($fileExtension, $allowedExtensions)) {
-                // Generate a unique filename for uploaded file and append file extension
-                $newFileName = uniqid('contact_', true) . '.' . $fileExtension;
-                // Construct final destination for uploaded file.
-                $destPath = $uploadDir . $newFileName;
-                
-                // Move uploaded file from temporary location to destination path
-                if (move_uploaded_file($fileTmpPath, $destPath)) {
-                    $contact_Image = $destPath;
-                } else {
-                    $error = 'Error moving the uploaded file.';
-                }
-            } else {
-                $error = 'Invalid file type. Allowed types: ' . implode(', ', $allowedExtensions);
-            }
+            $contact_Image = imageUpload();  
         }
-            
-            // Extract original file name of uploaded file and append it to uploads/ for the new image path.
-           /* $imagePath = $uploadDir . basename($_FILES['image']['name']);
-            
-            move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
-            
-            $image = $imagePath;
-        }
-        $contact_Image = $image; */
 
-        //$contact = new Contact($contact_Name, $phone, $email, $category, $contact_Image);
         $contactManager = new ContactManager();
         $contactManager->createContact($contact_Name, $phone, $email, $category, $contact_Image);
      
@@ -71,13 +29,15 @@
     <form method="post" enctype="multipart/form-data" class="contact-form">
             
         <label for="contact_Name">Name </label>
-        <input type="text" id="contact_Name" name="contact_Name" placeholder="e.g. John Doe" />
+        <input type="text" id="contact_Name" name="contact_Name" placeholder="e.g. John Doe" required />
 
         <label for="phone">Phone Number </label>
         <input type="tel" id="phone" name="phone" placeholder="e.g. +123 456-789-101" required/>
+        <span id="phoneError" class="error"></span><br><br>
     
         <label for="email">Email </label>
         <input type="email" id="email" name="email" placeholder="e.g. johndoe@example.com" required/>
+        <span id="emailError" class="error"></span><br><br>
         
         <label for="category">Category </label>
         <select id="category" name="category" required>
@@ -87,7 +47,9 @@
         </select>
 
         <label for="contact_Image">Photo </label>
-        <input type="file" id="contact_Image" name="contact_Image" accept="image/*" />
+        <input type="file" id="contact_Image" name="contact_Image" accept="image/*" onchange="previewImage(event)" /> <br><br>
+
+        <img id="imagePreview" class="preview" alt="Image Preview"><br>
 
         <div class="form-actions">
             <button type="submit" class="button">Save Contact</button>
@@ -95,6 +57,10 @@
         </div>
 
     </form>
+
+    <script src="scripts/validate.js"></script>
+    <script src="scripts/image_preview.js"></script>
+
 </section>
 
 <?php include 'partials/footer.php'; ?>
